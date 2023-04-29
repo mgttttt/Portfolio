@@ -1,0 +1,431 @@
+#include <math.h>
+#include <stdio.h>
+#include "ps.h"
+
+void obraz(struct ps *pss){
+      FILE *dan11;
+int i;
+char dan1[]={"DOBRZ.txt"};
+for(i=0;i<1000;i++){
+                    pss->cs[i]=0;
+                    pss->alfa[i]=0.0;
+                    pss->ll[i]=0.0;
+                    pss->hh[i]=0.0;
+                    pss->qq[i]=0.0;
+                    pss->oo[i]=0.0;
+                    pss->vvv[i]=0.0;
+                   }
+dan11=fopen(dan1,"r");
+fscanf(dan11,"%d%d",&pss->m,&pss->n);
+for(i=1;i<=pss->n;i++){
+fscanf(dan11,"%d%d%lf%lf%lf%lf%lf%lf",&pss->i1,&pss->cs[i],&pss->alfa[i],&pss->hh[i],&pss->qq[i],&pss->oo[i],&pss->ll[i],&pss->vvv[i]);
+                 }
+fclose(dan11);
+pss->smax[0]=pss->alf;
+pss->smin[0]=pss->alf;
+for(i=1;i<=pss->n;i++){
+                  if(pss->smax[0]<pss->alfa[i])pss->smax[0]=pss->alfa[i];
+                  if(pss->smin[0]>pss->alfa[i])pss->smin[0]=pss->alfa[i];
+                 }
+pss->smax[1]=pss->h;
+pss->smin[1]=pss->h;
+for(i=1;i<=pss->n;i++){
+                  if(pss->smax[1]<pss->hh[i])pss->smax[1]=pss->hh[i];
+                  if(pss->smin[1]>pss->hh[i])pss->smin[1]=pss->hh[i];
+                 }
+pss->smax[2]=pss->q;
+pss->smin[2]=pss->q;
+for(i=1;i<=pss->n;i++){
+                  if(pss->smax[2]<pss->qq[i])pss->smax[2]=pss->qq[i];
+                  if(pss->smin[2]>pss->qq[i])pss->smin[2]=pss->qq[i];
+                 }
+pss->smax[3]=pss->o;
+pss->smin[3]=pss->o;
+for(i=1;i<=pss->n;i++){
+                  if(pss->smax[3]<pss->oo[i])pss->smax[3]=pss->oo[i];
+                  if(pss->smin[3]>pss->oo[i])pss->smin[3]=pss->oo[i];
+                 }
+pss->smax[4]=pss->al;
+pss->smin[4]=pss->al;
+for(i=1;i<=pss->n;i++){
+                  if(pss->smax[4]<pss->ll[i])pss->smax[4]=pss->ll[i];
+                  if(pss->smin[4]>pss->ll[i])pss->smin[4]=pss->ll[i];
+                 }
+pss->smax[5]=pss->v;
+pss->smin[5]=pss->v;
+for(i=1;i<=pss->n;i++){
+                  if(pss->smax[5]<pss->vvv[i])pss->smax[5]=pss->vvv[i];
+                  if(pss->smin[5]>pss->vvv[i])pss->smin[5]=pss->vvv[i];
+                 }
+
+for(i=0;i<6;i++){
+                 pss->c1[i]=0;
+                 pss->c2[i]=0;
+                }
+pss->an1=0;
+pss->an2=0;
+for(i=1;i<=pss->n;i++){
+                  if(pss->cs[i]==0)pss->an1=pss->an1+1;
+                  if(pss->cs[i]==1)pss->an2=pss->an2+1;
+                 }
+for(i=1;i<=pss->n;i++){
+                  if(pss->cs[i]==0)pss->c1[0]=pss->c1[0]+(pss->alfa[i]-pss->smin[0])/(pss->smax[0]-pss->smin[0])/pss->an1;
+                  if(pss->cs[i]==1)pss->c2[0]=pss->c2[0]+(pss->alfa[i]-pss->smin[0])/(pss->smax[0]-pss->smin[0])/pss->an2;
+                 }
+for(i=1;i<=pss->n;i++){
+                  if(pss->cs[i]==0)pss->c1[1]=pss->c1[1]+(pss->hh[i]-pss->smin[1])/(pss->smax[1]-pss->smin[1])/pss->an1;
+                  if(pss->cs[i]==1)pss->c2[1]=pss->c2[1]+(pss->hh[i]-pss->smin[1])/(pss->smax[1]-pss->smin[1])/pss->an2;
+                 }
+for(i=1;i<=pss->n;i++){
+                  if(pss->cs[i]==0)pss->c1[2]=pss->c1[2]+(pss->qq[i]-pss->smin[2])/(pss->smax[2]-pss->smin[2])/pss->an1;
+                  if(pss->cs[i]==1)pss->c2[2]=pss->c2[2]+(pss->qq[i]-pss->smin[2])/(pss->smax[2]-pss->smin[2])/pss->an2;
+                 }
+for(i=1;i<=pss->n;i++){
+                  if(pss->cs[i]==0)pss->c1[3]=pss->c1[3]+(pss->oo[i]-pss->smin[3])/(pss->smax[3]-pss->smin[3])/pss->an1;
+                  if(pss->cs[i]==1)pss->c2[3]=pss->c2[3]+(pss->oo[i]-pss->smin[3])/(pss->smax[3]-pss->smin[3])/pss->an2;
+                 }
+for(i=1;i<=pss->n;i++){
+                  if(pss->cs[i]==0)pss->c1[4]=pss->c1[4]+(pss->ll[i]-pss->smin[4])/(pss->smax[4]-pss->smin[4])/pss->an1;
+                  if(pss->cs[i]==1)pss->c2[4]=pss->c2[4]+(pss->ll[i]-pss->smin[4])/(pss->smax[4]-pss->smin[4])/pss->an2;
+                 }
+for(i=1;i<=pss->n;i++){
+                  if(pss->cs[i]==0)pss->c1[5]=pss->c1[5]+(pss->vvv[i]-pss->smin[5])/(pss->smax[5]-pss->smin[5])/pss->an1;
+                  if(pss->cs[i]==1)pss->c2[5]=pss->c2[5]+(pss->vvv[i]-pss->smin[5])/(pss->smax[5]-pss->smin[5])/pss->an2;
+                 }
+pss->r1=((pss->alf-pss->smin[0])/(pss->smax[0]-pss->smin[0])-pss->c1[0])*((pss->alf-pss->smin[0])/(pss->smax[0]-pss->smin[0])-pss->c1[0]);
+pss->r1=pss->r1+((pss->h-pss->smin[1])/(pss->smax[1]-pss->smin[1])-pss->c1[1])*((pss->h-pss->smin[1])/(pss->smax[1]-pss->smin[1])-pss->c1[1]);
+pss->r1=pss->r1+((pss->q-pss->smin[2])/(pss->smax[2]-pss->smin[2])-pss->c1[2])*((pss->q-pss->smin[2])/(pss->smax[2]-pss->smin[2])-pss->c1[2]);
+pss->r1=pss->r1+((pss->o-pss->smin[3])/(pss->smax[3]-pss->smin[3])-pss->c1[3])*((pss->o-pss->smin[3])/(pss->smax[3]-pss->smin[3])-pss->c1[3]);
+pss->r1=pss->r1+((pss->al-pss->smin[4])/(pss->smax[4]-pss->smin[4])-pss->c1[4])*((pss->al-pss->smin[4])/(pss->smax[4]-pss->smin[4])-pss->c1[4]);
+pss->r1=pss->r1+((pss->v-pss->smin[5])/(pss->smax[5]-pss->smin[5])-pss->c1[5])*((pss->v-pss->smin[5])/(pss->smax[5]-pss->smin[5])-pss->c1[5]);
+pss->r2=((pss->alf-pss->smin[0])/(pss->smax[0]-pss->smin[0])-pss->c2[0])*((pss->alf-pss->smin[0])/(pss->smax[0]-pss->smin[0])-pss->c2[0]);
+pss->r2=pss->r2+((pss->h-pss->smin[1])/(pss->smax[1]-pss->smin[1])-pss->c2[1])*((pss->h-pss->smin[1])/(pss->smax[1]-pss->smin[1])-pss->c2[1]);
+pss->r2=pss->r2+((pss->q-pss->smin[2])/(pss->smax[2]-pss->smin[2])-pss->c2[2])*((pss->q-pss->smin[2])/(pss->smax[2]-pss->smin[2])-pss->c2[2]);
+pss->r2=pss->r2+((pss->o-pss->smin[3])/(pss->smax[3]-pss->smin[3])-pss->c2[3])*((pss->o-pss->smin[3])/(pss->smax[3]-pss->smin[3])-pss->c2[3]);
+pss->r2=pss->r2+((pss->al-pss->smin[4])/(pss->smax[4]-pss->smin[4])-pss->c2[4])*((pss->al-pss->smin[4])/(pss->smax[4]-pss->smin[4])-pss->c2[4]);
+pss->r2=pss->r2+((pss->v-pss->smin[5])/(pss->smax[5]-pss->smin[5])-pss->c2[5])*((pss->v-pss->smin[5])/(pss->smax[5]-pss->smin[5])-pss->c2[5]);
+pss->l1=0;
+pss->l2=0;
+for(i=1;i<=pss->n;i++){
+if(pss->cs[i]==0){
+pss->l1=pss->l1+pow((pss->alf-pss->smin[0])/(pss->smax[0]-pss->smin[0])-(pss->alfa[i]-pss->smin[0])/(pss->smax[0]-pss->smin[0]),2);
+pss->l1=pss->l1+pow((pss->h-pss->smin[1])/(pss->smax[1]-pss->smin[1])-(pss->hh[i]-pss->smin[1])/(pss->smax[1]-pss->smin[1]),2);
+pss->l1=pss->l1+pow((pss->q-pss->smin[2])/(pss->smax[2]-pss->smin[2])-(pss->qq[i]-pss->smin[2])/(pss->smax[2]-pss->smin[2]),2);
+pss->l1=pss->l1+pow((pss->o-pss->smin[3])/(pss->smax[3]-pss->smin[3])-(pss->oo[i]-pss->smin[3])/(pss->smax[3]-pss->smin[3]),2);
+pss->l1=pss->l1+pow((pss->al-pss->smin[4])/(pss->smax[4]-pss->smin[4])-(pss->ll[i]-pss->smin[4])/(pss->smax[4]-pss->smin[4]),2);
+pss->l1=pss->l1+pow((pss->v-pss->smin[5])/(pss->smax[5]-pss->smin[5])-(pss->vvv[i]-pss->smin[5])/(pss->smax[5]-pss->smin[5]),2);
+            }
+if(pss->cs[i]==1){
+pss->l2=pss->l2+pow((pss->alf-pss->smin[0])/(pss->smax[0]-pss->smin[0])-(pss->alfa[i]-pss->smin[0])/(pss->smax[0]-pss->smin[0]),2);
+pss->l2=pss->l2+pow((pss->h-pss->smin[1])/(pss->smax[1]-pss->smin[1])-(pss->hh[i]-pss->smin[1])/(pss->smax[1]-pss->smin[1]),2);
+pss->l2=pss->l2+pow((pss->q-pss->smin[2])/(pss->smax[2]-pss->smin[2])-(pss->qq[i]-pss->smin[2])/(pss->smax[2]-pss->smin[2]),2);
+pss->l2=pss->l2+pow((pss->o-pss->smin[3])/(pss->smax[3]-pss->smin[3])-(pss->oo[i]-pss->smin[3])/(pss->smax[3]-pss->smin[3]),2);
+pss->l2=pss->l2+pow((pss->al-pss->smin[4])/(pss->smax[4]-pss->smin[4])-(pss->ll[i]-pss->smin[4])/(pss->smax[4]-pss->smin[4]),2);
+pss->l2=pss->l2+pow((pss->v-pss->smin[5])/(pss->smax[5]-pss->smin[5])-(pss->vvv[i]-pss->smin[5])/(pss->smax[5]-pss->smin[5]),2);
+            }
+                 }
+}
+
+
+void ps1(struct ps *pss){
+      pss->pi=3.1415926;
+if(pss->alf>90.)pss->alf=90.;
+if(pss->alf<=0.00001)pss->alf=0.00001;
+      pss->palf=fabs((pss->alf-35.)/7.2);
+      pss->palf=0.8*exp(-pss->palf);
+      pss->salf1=9.0*(14.0-pss->alf);
+      if(pss->salf1<-20.0)pss->salf1=-20.0;
+      pss->salf2=9.0*(pss->alf-90.0);
+      if(pss->salf2<-20.0)pss->salf2=-20.0;
+      pss->salf3=3.1*(1.0+exp(pss->salf1)+exp(pss->salf2));
+      if(pss->salf3>200.0)pss->salf3=200.0;
+      pss->salf4=log10(pss->palf)*pss->salf3;
+      if(pss->salf4<-200.0)pss->salf4=-200.0;
+      pss->palf=pow(10.0,pss->salf4);
+if(pss->al<0.1)pss->al=0.1;if(pss->al>100000.0)pss->al=100000.0;
+if(pss->alf<=58.0){
+             pss->pl=1.65/pss->pi*atan(pss->al/16.0);
+             pss->sl1=2.2*(7.1-pss->al);
+             pss->sl1=exp(pss->sl1);
+             pss->sl1=2.9*(1.0+pss->sl1);
+             pss->sl2=log10(pss->pl)*pss->sl1;
+             if(pss->sl2<-200.0)pss->sl2=-200.0;
+             pss->pl=pow(10.0,pss->sl2);
+             }
+if(pss->alf>58.0){
+             pss->pl=1.54/pss->pi*atan(pss->al/2.6);
+             pss->sl1=142.0*(0.12-pss->al);
+             if(pss->sl1<-20.0)pss->sl1=-20.0;
+             pss->sl1=exp(pss->sl1);
+             pss->sl1=3.1*(1.0+pss->sl1);
+             pss->sl2=log10(pss->pl)*pss->sl1;
+             if(pss->sl2<-200.0)pss->sl2=-200.0;
+             pss->pl=pow(10.0,pss->sl2);
+             }
+if(pss->h>1000.0){pss->h=1000.0;}
+if(pss->h<0.01)pss->h=0.01;
+pss->ph=1.71/pss->pi*atan(4.8*pow(pss->h,1.8));
+pss->sh1=2.3*(22.0-100.0*pss->h);
+if(pss->sh1>100.0)pss->sh1=100.0;
+if(pss->sh1<-15.0)pss->sh1=-15.0;
+pss->sh2=2.3*(1.0+exp(pss->sh1));
+pss->sh1=log10(pss->ph);
+pss->sh3=pss->sh1*pss->sh2;
+if(pss->sh3<-200.0)pss->sh3=-200.0;
+pss->ph=pow(10.0,pss->sh3);
+pss->ph1=pss->ph;
+pss->pl1=pss->pl;
+pss->palf1=pss->palf;
+pss->ph=pow(pss->ph1,1.0-0.49*pss->palf1-0.49*pss->pl1);
+pss->palf=pow(pss->palf1,1.0-0.43*pss->pl1-0.47*pss->ph1);
+pss->pl=pow(pss->pl1,1.0-0.13*pss->palf1-0.08*pss->ph1);
+pss->p=log10(pss->palf)+log10(pss->pl)+log10(pss->ph);
+if(pss->p<-90.0)pss->p=-90.0;
+pss->p=pow(10.0,pss->p);
+if(pss->q<0.01)pss->q=0.01;
+if(pss->q>11.0)pss->pq=pow((2.0/pss->pi*atan(pss->q-10.968)+0.0001),(1.-0.08*pss->p));
+if(pss->q<=11.)pss->pq=2./pss->pi*atan(0.12*pss->q);
+if(pss->q>11.0)pss->dq=14.6;
+if(pss->q<=11.0)pss->dq=2./pss->pi*atan(pss->q/14.);
+if(pss->o<0.01)pss->o=0.01;
+pss->po=pow((1.97/pss->pi*atan(pow((pss->o+0.0001),1.3)+0.0001)),(1.-0.05*pss->p));
+if(pss->v<0.01)pss->v=0.01;
+pss->pv=(0.96+18.36*2.0/pss->pi*atan(1100.*pss->dh));
+pss->pv1=atan(pow((pss->v/3.2),1.7));
+pss->pv=pss->pv*pss->pv1;
+pss->vv=12.*(5.6-pss->v);
+if(pss->vv>10.)pss->vv=10.;
+pss->dpv=1.+exp(pss->vv);
+if(pss->dpv>100)pss->dpv=100;
+pss->dpv=pow(0.95,pss->dpv);
+pss->dpv=log10(pss->dpv);
+pss->pv1=log10(pss->pv+0.0001)+pss->dpv;
+if(pss->pv1<(-3.))pss->pv1=-3.;
+if(pss->pv1>=3.0)pss->pv1=3;
+pss->pv=pow(10.0,pss->pv1);
+pss->grt10=fabs(pss->t10)/(pss->h10+0.001);
+if(pss->grt10>16.3&&pss->t10<(-0.3)){
+                           pss->pt10=pow((1.98/pss->pi*atan(4.2*(pss->grt10-16.3))),(1.-0.11*pss->p));
+                          }
+if(pss->grt10<=16.3&&pss->t10<(-0.3)){
+                            pss->pt10=0.074*1.98/pss->pi*atan(1.4*(pss->grt10-16.3));
+                           }
+if(pss->t10>=(-0.3))pss->pt10=pow((2./pss->pi*atan(4.8*(pss->grt10+13.))),(1.-0.08*pss->p));
+pss->ph0=pow((1.95/pss->pi*atan(pow(pss->h0,3.4))),(1.-0.07*pss->p));
+pss->grt=2.0*fabs(pss->t)/(pss->h+pss->h0+0.0001);
+if(pss->grt>9.6&&pss->t<(-0.3))pss->pt=pow((2./pss->pi*atan(4.6*(pss->grt-8.6))),(1.-0.05*pss->p));
+if(pss->grt<=9.6&&pss->t<(-0.3))pss->pt=0.17/pss->pi*atan(1.1*(pss->grt-9.6));
+if(pss->t>=(-0.3))pss->pt=2./pss->pi*atan(3.8*(pss->grt+6.));
+if(pss->t<(-0.3)&&pss->grt>9.6)pss->dti=16.0*2/pss->pi*atan(0.0017*pss->tau);
+if(pss->t<(-0.3)&&pss->grt<=9.6)pss->dti=0.9*2./pss->pi*atan(0.0006*pss->tau);
+if(pss->t>=(-0.3))pss->dti=9.*2/pss->pi*atan(pss->tau);
+pss->p1=1-1.99/pss->pi*atan(0.4*pss->po+pss->dq*pss->pq+pss->pv+pss->dti*pss->pt+0.7*pss->ph0+12.3*pss->pt10);
+pss->p1=pow(pss->p,pss->p1);
+}
+
+void ps2(struct ps *pss){
+      pss->pi=3.1415926;
+if(pss->alf>90.)pss->alf=90.;
+if(pss->alf<=0.00001)pss->alf=0.00001;
+      pss->palf=fabs((pss->alf-35.)/7.2);
+      pss->palf=0.8*exp(-pss->palf);
+      pss->salf1=9.0*(14.0-pss->alf);
+      if(pss->salf1<-20.0)pss->salf1=-20.0;
+      pss->salf2=9.0*(pss->alf-90.0);
+      if(pss->salf2<-20.0)pss->salf2=-20.0;
+      pss->salf3=3.1*(1.0+exp(pss->salf1)+exp(pss->salf2));
+      if(pss->salf3>200.0)pss->salf3=200.0;
+      pss->salf4=log10(pss->palf)*pss->salf3;
+      if(pss->salf4<-200.0)pss->salf4=-200.0;
+      pss->palf=pow(10.0,pss->salf4);
+if(pss->al<0.1)pss->al=0.1;if(pss->al>100000.0)pss->al=100000.0;
+if(pss->alf<=58.0){
+             pss->pl=1.65/pss->pi*atan(pss->al/16.0);
+             pss->sl1=2.2*(7.1-pss->al);
+             pss->sl1=exp(pss->sl1);
+             pss->sl1=2.9*(1.0+pss->sl1);
+             pss->sl2=log10(pss->pl)*pss->sl1;
+             if(pss->sl2<-200.0)pss->sl2=-200.0;
+             pss->pl=pow(10.0,pss->sl2);
+             }
+if(pss->alf>58.0){
+             pss->pl=1.54/pss->pi*atan(pss->al/2.6);
+             pss->sl1=142.0*(0.12-pss->al);
+             if(pss->sl1<-20.0)pss->sl1=-20.0;
+             pss->sl1=exp(pss->sl1);
+             pss->sl1=3.1*(1.0+pss->sl1);
+             pss->sl2=log10(pss->pl)*pss->sl1;
+             if(pss->sl2<-200.0)pss->sl2=-200.0;
+             pss->pl=pow(10.0,pss->sl2);
+             }
+if(pss->h>1000.0){pss->h=1000.0;}
+if(pss->h<0.01)pss->h=0.01;
+pss->ph=1.71/pss->pi*atan(2.7*pow(pss->h,1.3));
+pss->sh1=3.2*(38.0-100.0*pss->h);
+if(pss->sh1>100.0)pss->sh1=100.0;
+if(pss->sh1<-15.0)pss->sh1=-15.0;
+pss->sh2=2.6*(1.0+exp(pss->sh1));
+pss->sh1=log10(pss->ph);
+pss->sh3=pss->sh1*pss->sh2;
+if(pss->sh3<-200.0)pss->sh3=-200.0;
+pss->ph=pow(10.0,pss->sh3);
+pss->ph1=pss->ph;
+pss->pl1=pss->pl;
+pss->palf1=pss->palf;
+pss->ph=pow(pss->ph1,1.0-0.49*pss->palf1-0.49*pss->pl1);
+pss->palf=pow(pss->palf1,1.0-0.43*pss->pl1-0.47*pss->ph1);
+pss->pl=pow(pss->pl1,1.0-0.13*pss->palf1-0.08*pss->ph1);
+pss->p=log10(pss->palf)+log10(pss->pl)+log10(pss->ph);
+if(pss->p<-60.0)pss->p=-60.0;
+pss->p=pow(10.0,pss->p);
+pss->pq=pow((2./pss->pi*atan(0.82*pss->q)),(1.-0.09*pss->p));
+if(pss->q<=10.)pss->dq=0.071*pss->q;
+if(pss->q>10.)pss->dq=1.65*pss->q-15.79;
+pss->po=pow((1.97/pss->pi*atan(pow(pss->o,1.3))),(1.-0.05*pss->p));
+pss->pv=pow((1.4/pss->pi*atan(pss->v)),(1.-0.17*pss->p));
+pss->grt10=fabs(pss->t10)/(pss->h10+0.01);
+if(pss->grt10<=13.0&&pss->t10<=(-0.3))pss->pt10=pow((2./pss->pi*atan(2.2*pss->grt10)),(1.-0.17*pss->p));
+if(pss->t10<=(-0.3)&&pss->grt10<=13.)pss->dt10=0.62*pss->grt10;
+if(pss->t10>(-0.3))pss->pt10=2./pss->pi*atan(11.7*(pss->grt10+2.3));
+if(pss->t10>(-0.3))pss->dt10=2.2*(pss->grt10+1.8);
+if(pss->t10<=(-0.3)&&pss->grt10>13.)pss->pt10=pow((2./pss->pi*atan(2.9*pss->grt10)),(1.-0.22*pss->p));
+if(pss->t10<=(-0.3)&&pss->grt10>13.)pss->dt10=1.26*pss->grt10;
+pss->grt=2.0*abs(pss->t)/(pss->h+pss->h0+0.0001);
+if(pss->t<=(-0.3))pss->pt=2./pss->pi*atan(pss->grt-9.2);
+if(pss->t>(-0.3))pss->pt=2./pss->pi*atan(pss->grt+13.8);
+pss->ph0=pow((1.95/pss->pi*atan(pow(pss->h0,3.4))),(1.-0.07*pss->p));
+if(pss->t<=(-0.3))pss->dti=2./pss->pi*atan(0.17*pss->tau);
+if(pss->t>(-0.3))pss->dti=2./pss->pi*atan(2.44*pss->tau);
+pss->p2=log10(pss->p)*(1-1.99/pss->pi*atan(0.4*pss->po+pss->dq*pss->pq+pss->pv+pss->dti*pss->pt+0.7*pss->ph0+pss->dt10*pss->pt10));
+if(pss->p2<-2.0)pss->p2=-2.0;
+pss->p2=pow(10.0,pss->p2);
+}
+
+void ps3(struct ps *pss){
+      pss->pi=3.1415926;
+if(pss->alf>90.)pss->alf=90.;
+if(pss->alf<=0.00001)pss->alf=0.00001;
+      pss->palf=fabs((pss->alf-35.)/7.2);
+      pss->palf=0.8*exp(-pss->palf);
+      pss->salf1=9.0*(14.0-pss->alf);
+      if(pss->salf1<-20.0)pss->salf1=-20.0;
+      pss->salf2=9.0*(pss->alf-90.0);
+      if(pss->salf2<-20.0)pss->salf2=-20.0;
+      pss->salf3=3.1*(1.0+exp(pss->salf1)+exp(pss->salf2));
+      if(pss->salf3>200.0)pss->salf3=200.0;
+      pss->salf4=log10(pss->palf)*pss->salf3;
+      if(pss->salf4<-200.0)pss->salf4=-200.0;
+      pss->palf=pow(10.0,pss->salf4);
+if(pss->al<0.1)pss->al=0.1;if(pss->al>100000.0)pss->al=100000.0;
+if(pss->alf<=58.0){
+             pss->pl=1.65/pss->pi*atan(pss->al/16.0);
+             pss->sl1=2.2*(7.1-pss->al);
+             pss->sl1=exp(pss->sl1);
+             pss->sl1=2.9*(1.0+pss->sl1);
+             pss->sl2=log10(pss->pl)*pss->sl1;
+             if(pss->sl2<-200.0)pss->sl2=-200.0;
+             pss->pl=pow(10.0,pss->sl2);
+             }
+if(pss->alf>58.0){
+             pss->pl=1.54/pss->pi*atan(pss->al/2.6);
+             pss->sl1=142.0*(0.12-pss->al);
+             if(pss->sl1<-20.0)pss->sl1=-20.0;
+             pss->sl1=exp(pss->sl1);
+             pss->sl1=3.1*(1.0+pss->sl1);
+             pss->sl2=log10(pss->pl)*pss->sl1;
+             if(pss->sl2<-200.0)pss->sl2=-200.0;
+             pss->pl=pow(10.0,pss->sl2);
+             }
+if(pss->h>1000.0){pss->h=1000.0;}
+if(pss->h<0.01)pss->h=0.01;
+pss->ph=1.71/pss->pi*atan(2.7*pow(pss->h,1.3));
+pss->sh1=3.6*(51.0-100.0*pss->h);
+if(pss->sh1>100.0)pss->sh1=100.0;
+if(pss->sh1<-15.0)pss->sh1=-15.0;
+pss->sh2=2.6*(1.0+exp(pss->sh1));
+pss->sh1=log10(pss->ph);
+pss->sh3=pss->sh1*pss->sh2;
+if(pss->sh3<-200.0)pss->sh3=-200.0;
+pss->ph=pow(10.0,pss->sh3);
+pss->ph1=pss->ph;
+pss->pl1=pss->pl;
+pss->palf1=pss->palf;
+pss->ph=pow(pss->ph1,1.0-0.49*pss->palf1-0.44*pss->pl1);
+pss->palf=pow(pss->palf1,1.0-0.43*pss->pl1-0.47*pss->ph1);
+pss->pl=pow(pss->pl1,1.0-0.13*pss->palf1-0.08*pss->ph1);
+pss->p=log10(pss->palf)+log10(pss->pl)+log10(pss->ph);
+if(pss->p<-60.0)pss->p=-60.0;
+pss->p=pow(10.0,pss->p);
+if(pss->q<0.001)pss->q=0.001;
+pss->pq=pow((2./pss->pi*atan(0.52*pss->q)),(1.-0.17*pss->p));
+if(pss->q<=46.)pss->dq=0.161*pss->q;
+if(pss->q>46.)pss->aqq=2.8;
+if(pss->q>46.)pss->dq=pss->aqq*pss->q+(46.*0.161-pss->aqq*46.);
+if(pss->o<0.001)pss->o=0.001;
+pss->po=pow((1.97/pss->pi*atan(pow(pss->o,0.63))),(1.-0.15*pss->p));
+if(pss->v<0.001)pss->v=0.001;
+pss->pv=pow((1.6/pss->pi*atan(0.8*pss->v)),(1.-0.12*pss->p));
+pss->grt10=fabs(pss->t10)/(pss->h10+0.01);
+if(pss->t10<=(-0.3))pss->pt10=pow((2./pss->pi*atan(1.5*pss->grt10)),(1.-0.05*pss->p));
+if(pss->t10<=(-0.3))pss->dt10=0.12*pss->grt10;
+if(pss->t10>(-0.3))pss->pt10=2./pss->pi*atan(11.7*(pss->grt10+2.3));
+if(pss->t10>(-0.3))pss->dt10=2.2*(pss->grt10+1.8);
+pss->grt=2.0*fabs(pss->t)/(pss->h+pss->h0+0.01);
+if(pss->t<(-0.3))pss->pt=2./pss->pi*atan(pss->grt-13.2);
+if(pss->t>=(-0.3))pss->pt=2./pss->pi*atan(pss->grt+11.2);
+if(pss->t<(-0.3))pss->dti=2./pss->pi*atan(0.06*pss->tau);
+if(pss->t>=(-0.3))pss->dti=2./pss->pi*atan(pss->tau);
+pss->p3=log10(pss->p)*(1-1.99/pss->pi*atan(0.4*pss->po+pss->dq*pss->pq+pss->pv+pss->dti*pss->pt+pss->dt10*pss->pt10));
+if(pss->p3<-2.0)pss->p3=-2.0;
+pss->p3=pow(10.0,pss->p3);
+}
+
+void frcst(struct ps *pss){
+
+                 pss->h=pss->hhh;
+                 pss->alf=pss->alff;
+                 pss->al=pss->all;
+                 pss->q=pss->qqq;
+                 pss->o=pss->ooo;
+                 if(pss->ie>12)pss->ie=12;
+                 if(pss->ie<2)pss->ie=2;
+                 if(pss->ro430<430.0)pss->ro430=430.0;
+                 if(pss->ro430>909.0)pss->ro430=909.0;
+                 pss->ks=1.0;
+                 if(pss->ie>=5&&pss->ie<8)pss->ks=1.0+0.2*pss->p_e*(pss->ie-5);
+                 if(pss->ie>=8)pss->ks=1.0+0.32*pss->p_e*(pss->ie-5)-0.36;
+                 pss->kp=0.63662*atan(0.0000149*pow((pss->ie*(910/pss->ro430)),6.906));
+                 pss->ke=0.63662*atan(0.000000003972*pow(pss->ie,9.438));
+                 pss->h=pss->ks*(pss->h-(1.0-pss->p_e*pss->kp*pss->ke)*pss->h430);
+                 if(pss->qf>pss->q)pss->q=pss->qf;
+                 if(pss->ie<=5)pss->qs=0.0;
+                 if(pss->ie>5&&pss->ie<8)pss->qs=4.4*(1.0*pss->ie-5.0);
+                 if(pss->ie>=8)pss->qs=16.2*(1.0*pss->ie-5.0)-35.4;
+                 pss->q=pss->q+pss->p_e*pss->qs;
+                 if(pss->o<pss->qf/24.0)pss->o=pss->qf/24.0;
+                 ps3(pss);
+                 if(pss->p3>=0.9){pss->icod=5;goto m1;}
+                 ps2(pss);
+                 if(pss->p2>=0.9){pss->icod=4;goto m1;}
+                 ps1(pss);
+                 obraz(pss);
+                 pss->u1=0.0;
+                 pss->u2=0.0;
+                 pss->w1=0.0;
+                 pss->w2=0.0;
+                 if(pss->r1<pss->r2)pss->u1=0.5;
+                 if(pss->r1>pss->r2)pss->w1=0.5;
+                 if(pss->l1<pss->l2)pss->u2=0.5;
+                 if(pss->l1>pss->l2)pss->w2=0.5;
+                 pss->p1=pow(pss->p1,(1.+1.05*pss->u1+1.05*pss->u2)/(1.+1.05*pss->w1+1.05*pss->w2));
+                 if(pss->p1<0.32){pss->icod=1;goto m1;}
+                 if(pss->p1>0.99)pss->p1=0.99;
+                 pss->p=pow(pss->p1,(1.0-pss->p1)/1.1);
+                 pss->icod=2;
+                 if(pss->p>=0.9)pss->icod=3;
+                 m1:;
+if(pss->icod<3&&pss->t24>0.4&&pss->h24>0.52&&pss->alf>15.0&&pss->alf<=65.0&&pss->al>60.0)pss->icod=3;
+if(pss->icod<2&&pss->t24>-0.2&&pss->h24>0.22&&pss->h24<0.52&&pss->alf>15.0&&pss->alf<=65.0&&pss->al>6.0)pss->icod=2;
+      
+}
+
