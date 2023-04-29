@@ -881,11 +881,11 @@ G_MODULE_EXPORT void on_menu_example_button_press_event(GtkWidget *window, gpoin
     gtk_text_view_set_buffer(mainWindowObjects.likelihood, buffer);
 
     buffer = gtk_text_view_get_buffer(mainWindowObjects.avalanche_risk);
-    gtk_text_buffer_set_text(buffer, "3", strlen("2"));
+    gtk_text_buffer_set_text(buffer, "2", strlen("2"));
     gtk_text_view_set_buffer(mainWindowObjects.avalanche_risk, buffer);
 
     PangoAttrList *const Attrs = pango_attr_list_new();
-    PangoAttribute *const back_color = pango_attr_background_new(0xffff, 0x7878, 0000);
+    PangoAttribute *const back_color = pango_attr_background_new(0xf8f8, 0xe4e4, 0x5c5c);
     pango_attr_list_insert(Attrs, back_color);
     gtk_label_set_attributes(mainWindowObjects.color, Attrs);
 
@@ -909,16 +909,15 @@ G_MODULE_EXPORT void on_menu_example_button_press_event(GtkWidget *window, gpoin
     if (lang_code)
         {
             buffer = gtk_text_view_get_buffer(mainWindowObjects.mess);
-            gtk_text_buffer_set_text(buffer, "For the next 24 hours - snow is in instable state; avalanches, having volume of 0.1 - 0.5 of amount\nof snow in the site, are possible. For the next second day - snow is in instable state; avalanches,\nhaving volume of up to 0.1 of amount of snow in the site, are possible.", strlen("For the next 24 hours - snow is in instable state; avalanches, having volume of 0.1 - 0.5 of amount\nof snow in the site, are possible. For the next second day - snow is in instable state; avalanches,\nhaving volume of up to 0.1 of amount of snow in the site, are possible."));
+            gtk_text_buffer_set_text(buffer, "For the next 24 hours - snow is in instable state; avalanches, having volume of up to 0.1 of amount\nof snow in the site, are possible", strlen("For the next 24 hours - snow is in instable state; avalanches, having volume of up to 0.1 of amount\nof snow in the site, are possible"));
             gtk_text_view_set_buffer(mainWindowObjects.mess, buffer);
         }
-    else{
-        buffer = gtk_text_view_get_buffer(mainWindowObjects.mess);
-        gtk_text_buffer_set_text(buffer, "На последующие сутки - снег находится в неустойчивом состоянии, возможен сход лавин значительного объема, равного\n0,1 - 0,5 от количества снега в очаге. На последующие вторые - снег находится в неустойчивом состоянии, возможен\nсход объемом до 10 % от количества снега в очаге.", strlen("На последующие сутки - снег находится в неустойчивом состоянии, возможен сход лавин значительного объема, равного\n0,1 - 0,5 от количества снега в очаге. На последующие вторые - снег находится в неустойчивом состоянии, возможен\nсход объемом до 10 % от количества снега в очаге."));
-        gtk_text_view_set_buffer(mainWindowObjects.mess, buffer);
-    }
-
-
+        else
+        {
+            buffer = gtk_text_view_get_buffer(mainWindowObjects.mess);
+            gtk_text_buffer_set_text(buffer, "На последующие сутки - снег находится в неустойчивом состоянии, возможен сход лавин объемом\nдо 10 % от количества снега в очаге.", strlen("На последующие сутки - снег находится в неустойчивом состоянии, возможен сход лавин объемом\nдо 10 % от количества снега в очаге."));
+            gtk_text_view_set_buffer(mainWindowObjects.mess, buffer);
+        }
 }
 
 
